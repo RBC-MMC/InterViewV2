@@ -1,0 +1,21 @@
+﻿@if (ViewBag.Notifications != null)
+{
+    <script>
+        $(document).ready(function () {
+            iziToast.settings({
+                timeout: 6000, // default timeout
+                resetOnHover: false,
+                transitionIn: 'flipInX',
+                transitionOut: 'flipOutX',
+                position: 'topRight' // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+            });
+
+            @foreach (var message in ViewBag.Notifications)
+            {
+                <text>
+                        iziToast.@(message.Type)({ icon: '@message.Icon', title: '@message.Title', message: '@message.Message' });
+                </text>
+            }
+        });
+    </script>
+}

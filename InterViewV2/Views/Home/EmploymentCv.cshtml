@@ -1,0 +1,161 @@
+﻿@model List<EmploymentCv>
+@{
+    ViewData["Title"] = "EmploymentCv";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--  BEGIN CUSTOM STYLE FILE  -->
+<link rel="stylesheet" type="text/css" href="~/src/plugins/src/table/datatable/datatables.css">
+
+<link rel="stylesheet" type="text/css" href="~/src/plugins/css/light/table/datatable/dt-global_style.css">
+<link rel="stylesheet" type="text/css" href="~/src/plugins/css/dark/table/datatable/dt-global_style.css">
+<!--  END CUSTOM STYLE FILE  -->
+
+<style>
+    #ecommerce-list img {
+    border-radius: 18px;
+    }
+</style>
+<div id="content" class="main-content">
+
+    <div class="layout-px-spacing">
+
+        <div class="middle-content container-xxl p-0">
+
+            <!-- BREADCRUMB -->
+            <div class="page-meta">
+                <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">EmploymentCv Applications</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">List</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- /BREADCRUMB -->
+
+            <div class="row layout-top-spacing">
+
+                <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="widget-content widget-content-area br-8">
+                        <table class="table data-table dt-table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Submit date</th>
+                                    <th>Application ID</th>
+                                    <th>Full Name</th>
+                                    <th>Status</th>
+                                    <th>Date of Birth</th>
+                                    <th>Gender</th>
+                                    <th>Citizenship</th>
+                                    <th>Position Applied For</th>
+                                   @*  <th>Suggested Postion by Manager</th> *@
+                                    <th class="no-content text-center">Action</th> 
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.CreatedDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.AppID</td>
+                                        <td>@item.FirstName @item.FamilyName</td>
+                                        <td><span class="badge badge-info">No Passed</span></td>
+                                        <td>@item.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.Gender</td>
+                                        <td>@item.Nationality</td>
+                                        <td>
+                                            @if (!string.IsNullOrWhiteSpace(item.CandidatePositions))
+                                            {
+                                                var positions = item.CandidatePositions
+                                                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                .Select(p => p.Trim())
+                                                .ToList();  // We convert it to list, using count and index
+                                                <ul class="list-unstyled mb-0">
+                                                    @for (int i = 0; i < positions.Count; i++)
+                                                    {
+                                                        <li>@($"{i + 1}.  {positions[i]}")</li>
+                                                    }
+                                                </ul>
+                                            }
+                                            else
+                                            {
+
+                                                <p class="text-muted" style="color: black !important;">1. @item.Position.PositionEnName</p>
+                                            }
+                                        </td>
+                                       @*  <td>$61</td> *@
+                                        <td class="text-center">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                                </a>
+
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+                                                    <a class="dropdown-item" href="javascript:void(0);"><img width="30" height="30" src="https://img.icons8.com/color/48/fine-print.png" alt="fine-print" /> View Detail</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);"><img width="30" height="30" src="https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/58/external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2.png" alt="external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2" /> Add Interview</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--  BEGIN FOOTER  -->
+    <div class="footer-wrapper">
+        <div class="footer-section f-section-1">
+            <p class="">Copyright © <span class="dynamic-year">2024</span> <a target="_blank" href="https://designreset.com/equation/">DesignReset</a>, All rights reserved.</p>
+        </div>
+        <div class="footer-section f-section-2">
+            <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
+        </div>
+    </div>
+    <!--  END FOOTER  -->
+
+</div>
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<!-- jQuery'yi Google CDN'den ekleyin -->
+
+@* <script>
+    ecommerceList = $('#ecommerce-list').DataTable({
+        headerCallback:function(e, a, t, n, d, s,) {
+            e.getElementsByTagName("th")[0].innerHTML=`
+            <div class="form-check form-check-primary d-block new-control">
+                <input class="form-check-input chk-parent" type="checkbox" id="form-check-default">
+            </div>`
+        },
+        columnDefs:[ {
+            targets:0, width:"30px", className:"", orderable:!1, render:function(e, a, t, n, d) {
+                return `
+                <div class="form-check form-check-primary d-block new-control">
+                    <input class="form-check-input child-chk" type="checkbox" id="form-check-default">
+                </div>`
+            }
+        }],
+        "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+    "<'table-responsive'tr>" +
+    "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+        "oLanguage": {
+            "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+            "sInfo": "Showing page _PAGE_ of _PAGES_",
+            "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+            "sSearchPlaceholder": "Search...",
+           "sLengthMenu": "Results :  _MENU_",
+        },
+        "stripeClasses": [],
+        "lengthMenu": [7, 10, 20, 50],
+        "pageLength": 10
+    });
+    multiCheck(ecommerceList);
+</script> *@
+<!-- END PAGE LEVEL SCRIPTS -->
