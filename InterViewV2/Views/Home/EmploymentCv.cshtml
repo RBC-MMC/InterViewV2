@@ -48,7 +48,7 @@
                                     <th>Gender</th>
                                     <th>Citizenship</th>
                                     <th>Position Applied For</th>
-                                   @*  <th>Suggested Postion by Manager</th> *@
+                                    @*  <th>Suggested Postion by Manager</th> *@
                                     <th class="no-content text-center">Action</th> 
 
                                 </tr>
@@ -60,7 +60,15 @@
                                         <td>@item.CreatedDate.ToString("yyyy-MM-dd")</td>
                                         <td>@item.AppID</td>
                                         <td>@item.FirstName @item.FamilyName</td>
-                                        <td><span class="badge badge-info">No Passed</span></td>
+                                        @if (item.CV_Interview_Process_Status == CV_Interview_Process_Status.Submitter.ToString()){
+
+                                            <td><span class="badge badge-info">@item.CV_Interview_Process_Status </span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="badge badge-success">@item.CV_Interview_Process_Status  </span></td>
+
+                                        }
                                         <td>@item.DateOfBirth.ToString("yyyy-MM-dd")</td>
                                         <td>@item.Gender</td>
                                         <td>@item.Nationality</td>
@@ -92,8 +100,8 @@
                                                 </a>
 
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
-                                                    <a class="dropdown-item" href="javascript:void(0);"><img width="30" height="30" src="https://img.icons8.com/color/48/fine-print.png" alt="fine-print" /> View Detail</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);"><img width="30" height="30" src="https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/58/external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2.png" alt="external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2" /> Add Interview</a>
+                                                    <a class="dropdown-item" href="/Home/CvDetails/@item.Id"><img width="30" height="30" src="https://img.icons8.com/color/48/fine-print.png" alt="fine-print" /> View Detail</a>
+                                                    <a class="dropdown-item" data-id="@item.Id" id="addinterviewBtn"><img width="30" height="30" src="https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/58/external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2.png" alt="external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2" /> Add Interview</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -124,6 +132,27 @@
 </div>
 
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on("click", "#addinterviewBtn", function (e) {
+          e.preventDefault(); 
+
+          var id = $(this).data("id");
+        console.log(id);
+        $.ajax({
+            url: '@Url.Action("AddInterview", "Home")',
+            type: 'POST',
+            data: { id: id },
+            success: function (response) {
+                alert(response); 
+            },
+            error: function (xhr) {
+                alert("Error: " + xhr.responseText);
+            }
+        });
+    });
+</script>
+
 <!-- jQuery'yi Google CDN'den ekleyin -->
 
 @* <script>

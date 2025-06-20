@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using ClosedXML;
 
 namespace InterViewV2.Controllers;
 
@@ -1361,6 +1362,27 @@ public class HomeController : Controller
         {
             return View(cvdet);
         }
+    }
+    [HttpPost]
+    public async Task<IActionResult> AddInterview(Guid id)
+    {
+        if (id == Guid.Empty)
+        {
+            return BadRequest("ID Not Empty.");
+        }
+
+        var cvCandidate = await _context.EmploymentCv.FirstOrDefaultAsync(c => c.Id == id);
+
+        if (cvCandidate == null)
+        {
+            return NotFound("Candidate Not Find ");
+        }
+
+        cvCandidate.CV_Interview_Process_Status = CV_Interview_Process_Status.Ready_For_Interview.ToString();
+
+        await _context.SaveChangesAsync();
+
+        return Ok("Candidate Success Interview Added");
     }
     public async Task<IActionResult> GetUserImg(Guid id)
     {
