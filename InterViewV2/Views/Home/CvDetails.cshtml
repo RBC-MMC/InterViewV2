@@ -30,12 +30,12 @@
     }
 
     .statikPTitle{
-        text-transform: uppercase;
-        font-size: 17px;
-        font-weight: 700;
-        width: 48%;
-        margin: 0;
-        margin-top:10px;
+    text-transform: uppercase;
+    font-size: 17px;
+    font-weight: 700;
+    width: 48%;
+    margin: 0;
+    margin-top:10px;
     }
     .statikP {
     font-size: 16px;
@@ -47,14 +47,22 @@
     .daynamicP{
     font-size: 17px;
     font-weight: 700;
-        text-transform: uppercase;
+    text-transform: uppercase;
     }
     .titleHr{
-        height: 0px;
-        border: 2px solid !important;
-        width: 100%;
-        margin-bottom: 10px;
-        margin-top: 0;
+    height: 0px;
+    border: 2px solid !important;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 0;
+    }
+    .appid{
+        float: right;
+        margin-left: 39%;
+        margin-top:4px;
+        font-size: 18px;
+        color: red;
+        font-weight: 700;
     }
 </style>
 <div id="content" class="main-content">
@@ -72,8 +80,8 @@
                             <div class="col-xl-12">
                                 <div class="row">
 
-                                <div  class=" col-12">
-                                    <a href="javascript:void(0);" style="float:right;" class="btn btn-secondary btn-print  action-print mb-2">Print</a>
+                                    <div  class=" col-12">
+                                        <a href="javascript:void(0);" style="float:right;" class="btn btn-secondary btn-print  action-print mb-2">Print</a>
                                     </div>
                                 </div>
                                 <div class="invoice-container">
@@ -84,11 +92,14 @@
                                         </div>
                                         <div class="col-10 d-flex align-items-center" >
                                             <h2>CDC - Candidate Of <span style="font-weight:700;">@Model.FirstName @Model.FamilyName</span>  Detalis </h2>
-                                        <img src="/Home/GetUserImg?id=@Model.Id" alt="Photo" style="width: 10%; margin: 15px 20px 20px 0px; border-radius: 5px;" />
+                                            <img src="/Home/GetUserImg?id=@Model.Id" alt="Photo" style="width: 10%; margin: 15px 20px 20px 0px; border-radius: 5px;" />
                                         </div>
                                         <hr />
                                         <div> 
-                                            <p class="statikPTitle">Personal information </p>  <hr class="titleHr" />
+                                            <div class="d-flex"> 
+                                            <p class="statikPTitle">Personal information </p> <p class="appid">@Model.AppID</p> 
+                                            </div>
+                                            <hr class="titleHr" />
                                         </div>
                                         <div class=" d-flex">
                                             <p class="statikP">Name:</p> 
@@ -270,35 +281,51 @@
 
                                         @if(Model.Cv_ReferanceFrients.Count != 0)
                                         {
-                                        <div>
+                                            <div>
                                                 <p class="statikPTitle">REFERANCE </p>  <hr style=" width: 50%; border: 1px solid;margin-bottom: 10px;" />
-                                        </div>
-                                          @foreach (var r in Model.Cv_ReferanceFrients)
-                                         {
-                                        <div class=" d-flex">
-                                            <p class="statikP">Name:</p>
-                                            <p class="daynamicP">@r.FriendReferenceName</p>
-                                        </div>  <div class=" d-flex">
-                                            <p class="statikP">Surname:</p>
-                                            <p class="daynamicP">@r.FriendReferenceSurname</p>
-                                        </div>  <div class=" d-flex">
-                                            <p class="statikP">Phone:</p>
-                                            <p class="daynamicP">@r.FriendReferencePhone</p>
-                                        </div>
+                                            </div>
+                                            @foreach (var r in Model.Cv_ReferanceFrients)
+                                            {
+                                                <div class=" d-flex">
+                                                    <p class="statikP">Name:</p>
+                                                    <p class="daynamicP">@r.FriendReferenceName</p>
+                                                </div>  <div class=" d-flex">
+                                                    <p class="statikP">Surname:</p>
+                                                    <p class="daynamicP">@r.FriendReferenceSurname</p>
+                                                </div>  <div class=" d-flex">
+                                                    <p class="statikP">Phone:</p>
+                                                    <p class="daynamicP">@r.FriendReferencePhone</p>
+                                                </div>
                                                 <hr style=" width: 50%; border: 1px solid;margin-bottom: 10px;" />
+                                            }
                                         }
-                                        }
-                                      
+
                                         <div>
                                             <p class="statikPTitle">ADDITIONAL INFORMATION </p>  <hr class="titleHr" />
                                         </div>
                                         <div class=" d-flex">
                                             <p class="statikP">List any other qualifications, skills, and experiences:</p>
-                                            <p class="daynamicP">@Model.AnyOtherSkillsYouHave</p>
+                                            @if (Model.AnyOtherSkillsYouHave != null)
+                                            {
+                                                <p class="daynamicP">@Model.AnyOtherSkillsYouHave</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="daynamicP">-----</p>
+                                            }
                                         </div>
                                         <div class=" d-flex">
                                             <p class="statikP">Provide additional information about yourself and your skills to support your application:</p>
+                                            @if (Model.YourSkillsThatCanSupportYourApplication !=null)
+                                            {
+
                                             <p class="daynamicP">@Model.YourSkillsThatCanSupportYourApplication</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="daynamicP">-----</p>
+
+                                            }
                                         </div>
                                         <div class=" d-flex">
                                             <p class="statikP">Are you ready to work offshore ?:</p>
@@ -312,7 +339,7 @@
                                             <p class="statikP">Created date:</p>
                                             <p class="daynamicP">@Model.CreatedDate</p>
                                         </div>
-                                         @if (Model.Cv_OtherFiles != null)
+                                         @if (Model.Cv_OtherFiles.Count != 0)
                                            {
                                         <div>
                                                 <p class="statikPTitle">ATTACHMENTS</p>  <hr class="titleHr" />

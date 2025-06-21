@@ -4,5 +4,157 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<!--  BEGIN CUSTOM STYLE FILE  -->
+<link rel="stylesheet" type="text/css" href="~/src/plugins/src/table/datatable/datatables.css">
 
+<link rel="stylesheet" type="text/css" href="~/src/plugins/css/light/table/datatable/dt-global_style.css">
+<link rel="stylesheet" type="text/css" href="~/src/plugins/css/dark/table/datatable/dt-global_style.css">
+<!--  END CUSTOM STYLE FILE  -->
+<link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" rel="stylesheet">
+<style>
+    #ecommerce-list img {
+        border-radius: 18px;
+    }
+
+    .widget-content #example_wrapper .dt-layout-row .dt-search {
+        display:none;
+    }
+</style>
+<div id="content" class="main-content">
+
+    <div class="layout-px-spacing">
+
+        <div class="middle-content container-xxl p-0">
+
+            <!-- BREADCRUMB -->
+            <div class="page-meta">
+                <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Vacancy</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">List</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- /BREADCRUMB -->
+
+            <div class="row layout-top-spacing">
+
+                <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="widget-content widget-content-area br-8">
+                            <div class="mt-3 ms-3 pt-3">
+                            <a class="btn btn-info toggle-vis" data-column="0">Create Date</a> 
+                            <a class="btn btn-info toggle-vis ms-2" data-column="1">Vacancy ID</a>  
+                            <a class="btn btn-info toggle-vis ms-2" data-column="2">Created By</a> 
+                            <a class="btn btn-info toggle-vis ms-2" data-column="3">Vacancy Information</a> 
+                            <a class="btn btn-info toggle-vis ms-2" data-column="4">Department</a> 
+                            <a class="btn btn-info toggle-vis ms-2" data-column="5">Status</a> 
+                            <a class="btn btn-info toggle-vis ms-2" data-column="6">Availability</a> 
+                            <a class="btn btn-info toggle-vis ms-2" data-column="7">Applications</a> 
+                            <a class="btn btn-info toggle-vis ms-2" data-column="8">Action</a>
+                            <a class="btn btn-secondary " asp-controller="Vacancy" asp-action="createVacancy" style="float:right; margin-right:25px;">Create Vacancy</a>
+                        </div>
+                        <table id="example" class="table data-table dt-table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Create Date</th>
+                                    <th>Vacancy ID </th>
+                                    <th>Created By</th>
+                                    <th>Vacancy Information</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                    <th>Availability</th>
+                                    <th>Applications</th>
+                                    @*  <th>Suggested Postion by Manager</th> *@
+                                    <th class="no-content text-center">Action</th>
+
+                                </tr>
+                            </thead>
+                   @*          <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.CreatedDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.AppID</td>
+                                        <td>@item.FirstName @item.FamilyName</td>
+                                        @if (item.CV_Interview_Process_Status == CV_Interview_Process_Status.Submitter.ToString())
+                                        {
+                                            <td><span class="badge badge-info">@item.CV_Interview_Process_Status </span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="badge badge-warning">@item.CV_Interview_Process_Status  </span></td>
+                                        }
+                                        <td>@item.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.Gender</td>
+                                        <td>@item.Nationality</td>
+                                        <td>
+                                            @if (!string.IsNullOrWhiteSpace(item.CandidatePositions))
+                                            {
+                                                var positions = item.CandidatePositions
+                                                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                .Select(p => p.Trim())
+                                                .ToList();  // We convert it to list, using count and index
+                                                <ul class="list-unstyled mb-0">
+                                                    @for (int i = 0; i < positions.Count; i++)
+                                                    {
+                                                        <li>@($"{i + 1}.  {positions[i]}")</li>
+                                                    }
+                                                </ul>
+                                            }
+                                            else
+                                            {
+
+                                                <p class="text-muted" style="color: black !important;">1. @item.Position.PositionEnName</p>
+                                            }
+                                        </td>
+                                      
+                                        <td class="text-center">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                                </a>
+
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+                                                    <a class="dropdown-item" href="/Home/CvDetails/@item.Id"><img width="30" height="30" src="https://img.icons8.com/color/48/fine-print.png" alt="fine-print" /> View Detail</a>
+                                                    <a class="dropdown-item" data-id="@item.Id" id="addinterviewBtn"><img width="30" height="30" src="https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/58/external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2.png" alt="external-add-friend-social-media-sbts2018-lineal-color-sbts2018-2" /> Add Interview</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody> *@
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+
+<script>
+       const table = new DataTable('#example', {
+        paging: false,
+        scrollY: '200px'
+        });
+
+    document.querySelectorAll('a.toggle-vis').forEach((el) => {
+        el.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            el.classList.toggle('btn-info');
+            el.classList.toggle('btn-dark');
+
+            let columnIdx = el.getAttribute('data-column');
+            let column = table.column(columnIdx);
+            column.visible(!column.visible());
+        });
+    });
+
+</script>

@@ -25,7 +25,8 @@ public class HomeController : Controller
     private static string? _hire;
     private string filesLocation { get; set; }
 
-    public HomeController(UserManager<User> userManager,
+    public HomeController(
+        UserManager<User> userManager,
         DB_Context context,
         IFileService fileService,
         Repo repo,
